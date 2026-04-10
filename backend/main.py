@@ -11,11 +11,12 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
 
 from models import LogEntry, ParseResult, SyncRequest, SyncResponse, Transaction
-from services.mcp_sheets import SheetsService
+from services.mcp_sheets import SheetsService, SHEET_IDS, load_sheet_ids
 from services.log_service import LogService
 
-# Load .env from project root
+# Load .env from project root — MUST happen before load_sheet_ids()
 load_dotenv(os.path.join(os.path.dirname(__file__), "..", ".env"))
+load_sheet_ids()
 
 sheets = SheetsService()
 log_service = LogService()
@@ -86,17 +87,11 @@ async def create_sheet(year: int = 2025):
 
 @app.get("/api/sheet-status")
 async def sheet_status(year: int = 2025):
-    """Check if a sheet exists and is accessible for the given year."""
-    from services.mcp_sheets import SHEET_IDS
+    """Check if a sheet is configured for the given year."""
+    has = sheets.has_sheet(year)
     sheet_id = SHEET_IDS.get(year)
-    if not sheet_id:
-        return {"exists": False, "year": year}
-    try:
-        has = await sheets.has_sheet(year)
-        url = f"https://docs.google.com/spreadsheets/d/{sheet_id}" if has else None
-        return {"exists": has, "year": year, "url": url}
-    except Exception:
-        return {"exists": False, "year": year}
+    url = f"https://docs.google.com/spreadsheets/d/{sheet_id}" if has else None
+    return {"exists": has, "year": year, "url": url}
 
 
 @app.get("/api/categories")

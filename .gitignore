@@ -7,3 +7,5 @@ uploads/
 *.pyc
 .DS_Store
 .claude/
+_old_*
+*-statements-*.pdf

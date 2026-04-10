@@ -1,14 +1,94 @@
 import asyncio
 import json
 import os
+import re
 
 from mcp import ClientSession
 from mcp.client.stdio import stdio_client, StdioServerParameters
 
-SHEET_IDS = {
-    2025: os.getenv("SHEETS_2025_ID", "1LPu8pOIuPIf6CaHY4D5gnH9yfSYMl01UgRVuPBx6bjQ"),
-    2026: os.getenv("SHEETS_2026_ID", "1MW2qq5L2ITGOQSgZR3KbzSBYlY3bOboXl1Ro_mBmSLc"),
+# Default sheet IDs — overridden by .env values at runtime
+_DEFAULT_SHEET_IDS = {
+    2025: "1LPu8pOIuPIf6CaHY4D5gnH9yfSYMl01UgRVuPBx6bjQ",
+    2026: "1MW2qq5L2ITGOQSgZR3KbzSBYlY3bOboXl1Ro_mBmSLc",
 }
+
+# Populated at runtime by load_sheet_ids()
+SHEET_IDS: dict[int, str] = {}
+
+
+def _env_path() -> str:
+    """Path to the project .env file."""
+    return os.path.join(os.path.dirname(__file__), "..", "..", ".env")
+
+
+def load_sheet_ids():
+    """Load sheet IDs from environment variables and .env file.
+
+    Call this AFTER dotenv has loaded the .env file.
+    Picks up any SHEETS_YYYY_ID variables (e.g., SHEETS_2025_ID, SHEETS_2027_ID).
+    """
+    SHEET_IDS.clear()
+
+    # Load defaults first
+    for year, sid in _DEFAULT_SHEET_IDS.items():
+        SHEET_IDS[year] = sid
+
+    # Override with env vars (supports any year)
+    for key, val in os.environ.items():
+        if key.startswith("SHEETS_") and key.endswith("_ID") and val:
+            try:
+                year = int(key.replace("SHEETS_", "").replace("_ID", ""))
+                SHEET_IDS[year] = val
+            except ValueError:
+                continue
+
+    # Ensure defaults are persisted to .env so they survive restarts
+    env_file = _env_path()
+    if os.path.exists(env_file):
+        with open(env_file, "r") as f:
+            env_content = f.read()
+    else:
+        env_content = ""
+
+    for year, sid in SHEET_IDS.items():
+        var_name = f"SHEETS_{year}_ID"
+        if var_name not in env_content:
+            with open(env_file, "a") as f:
+                f.write(f"{var_name}={sid}\n")
+            print(f"[Config] Added {var_name} to .env")
+
+    print(f"[Config] Loaded sheet IDs: { {y: sid[:12] + '...' for y, sid in SHEET_IDS.items()} }")
+
+
+def save_sheet_id(year: int, sheet_id: str):
+    """Persist a sheet ID to the .env file and the runtime dict."""
+    SHEET_IDS[year] = sheet_id
+
+    env_file = _env_path()
+    var_name = f"SHEETS_{year}_ID"
+
+    # Read existing .env content
+    lines = []
+    replaced = False
+    if os.path.exists(env_file):
+        with open(env_file, "r") as f:
+            for line in f:
+                if line.startswith(f"{var_name}="):
+                    lines.append(f"{var_name}={sheet_id}\n")
+                    replaced = True
+                else:
+                    lines.append(line)
+
+    # Append if not already present
+    if not replaced:
+        lines.append(f"{var_name}={sheet_id}\n")
+
+    with open(env_file, "w") as f:
+        f.writelines(lines)
+
+    # Also set in the current process environment
+    os.environ[var_name] = sheet_id
+    print(f"[Config] Saved {var_name}={sheet_id[:12]}... to .env")
 
 # 2025: Date, Vendor, Description, Amount, Category, Source Account, Notes (7 cols)
 # 2026: Date, Vendor, Description, Amount, Category, Client, Source Account, Notes (8 cols)
@@ -131,9 +211,8 @@ class SheetsService:
             except Exception as e:
                 print(f"[MCP] Warning: could not write headers to {month}: {e}")
 
-        # Register the new sheet ID for this year
-        SHEET_IDS[year] = sheet_id
-        print(f"[MCP] Created expense sheet for {year}: {sheet_id}")
+        # Persist the new sheet ID to .env and runtime dict
+        save_sheet_id(year, sheet_id)
 
         return {
             "spreadsheet_id": sheet_id,
@@ -144,7 +223,6 @@ class SheetsService:
 
     def _extract_sheet_id(self, result_text: str) -> str | None:
         """Extract a Google Spreadsheet ID from MCP tool result text."""
-        import re
         # Try to find spreadsheet ID in a URL pattern
         url_match = re.search(r"/spreadsheets/d/([a-zA-Z0-9_-]+)", result_text)
         if url_match:
@@ -155,16 +233,9 @@ class SheetsService:
             return id_match.group(0)
         return None
 
-    async def has_sheet(self, year: int) -> bool:
-        """Check if a sheet is configured and accessible for the given year."""
-        sheet_id = SHEET_IDS.get(year)
-        if not sheet_id:
-            return False
-        try:
-            await self._call_tool("listSheets", {"spreadsheetId": sheet_id})
-            return True
-        except Exception:
-            return False
+    def has_sheet(self, year: int) -> bool:
+        """Check if a sheet ID is configured for the given year."""
+        return bool(SHEET_IDS.get(year))
 
     async def get_categories(self, year: int) -> list[str]:
         """Scan Category column across all months, return unique sorted list."""
