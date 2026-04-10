@@ -60,6 +60,7 @@ The cost of not solving this: missed deductions at tax time (real money lost), s
 
 | Feature | Description | Why Deferred |
 |---------|-------------|-------------|
+| Google Sheet Creation | User can create a new expense tracking Sheet from the app (correct monthly tabs, column headers, Summary tab) instead of requiring a pre-existing Sheet | V1 assumes Sheets already exist; this removes the setup dependency and makes onboarding self-service |
 | Year/Month Navigation Sidebar | Browse by tax year and month, see completion status | Useful but not needed for core upload-parse-sync loop |
 | Summary Dashboard | Total expenses, auto-categorized count, monthly/yearly totals | Reporting belongs in Google Sheets for now |
 | Multi-page PDF Optimization | Smarter page-by-page parsing for 20+ page statements | Current approach works; optimize when needed |

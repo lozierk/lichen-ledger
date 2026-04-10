@@ -198,6 +198,7 @@ The full Product Requirements Document is at [`PRD_Lichen_Ledger_v2.md`](PRD_Lic
 
 ## What's Next
 
+- **Google Sheet creation from the app** — let users create a new expense Sheet (with monthly tabs, column headers, Summary tab) instead of requiring a pre-existing one
 - End-to-end testing with real PDF statements from different banks
 - Category analytics on the success screen (breakdown by type)
 - Multi-page statement preview navigation
