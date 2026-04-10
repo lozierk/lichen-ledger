@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react'
 
-export default function UploadZone({ onFileSelected, isProcessing }) {
+export default function UploadZone({ onFileSelected, isProcessing, onLoadDemo, progressMessage }) {
   const [isDragOver, setIsDragOver] = useState(false)
   const fileInputRef = useRef(null)
 
@@ -63,14 +63,24 @@ export default function UploadZone({ onFileSelected, isProcessing }) {
               </h3>
               <p className="text-on-surface-variant text-sm mt-1">
                 {isProcessing
-                  ? 'Parsing with AI — this may take a few seconds'
+                  ? (progressMessage || 'Parsing with AI — this may take a few seconds')
                   : 'Drag and drop your PDF statement or receipt image here to start parsing'}
               </p>
             </div>
             {!isProcessing && (
-              <button className="cta-gradient px-8 py-3 rounded-full text-on-primary font-medium shadow-lg hover:opacity-90 active:scale-95 transition-all">
-                Select Files
-              </button>
+              <div className="flex items-center gap-4">
+                <button className="cta-gradient px-8 py-3 rounded-full text-on-primary font-medium shadow-lg hover:opacity-90 active:scale-95 transition-all">
+                  Select Files
+                </button>
+                {onLoadDemo && (
+                  <button
+                    onClick={(e) => { e.stopPropagation(); onLoadDemo(); }}
+                    className="px-6 py-3 rounded-full border-2 border-primary/30 text-primary font-medium hover:bg-primary-fixed/20 active:scale-95 transition-all"
+                  >
+                    Try Demo
+                  </button>
+                )}
+              </div>
             )}
             {isProcessing && (
               <div className="w-8 h-8 border-4 border-primary/30 border-t-primary rounded-full animate-spin"></div>

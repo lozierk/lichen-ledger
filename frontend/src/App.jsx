@@ -6,7 +6,7 @@ import TransactionList from './components/TransactionList'
 import CategoryAlert from './components/CategoryAlert'
 import ProcessedLog from './components/ProcessedLog'
 import SuccessBanner from './components/SuccessBanner'
-import { uploadDocument, getCategories, syncTransactions, getLog } from './api'
+import { uploadDocumentStream, getCategories, syncTransactions, getLog, getDemoData } from './api'
 
 export default function App() {
   const [year, setYear] = useState(2025)
@@ -20,6 +20,8 @@ export default function App() {
   const [syncResult, setSyncResult] = useState(null)
   const [parseResult, setParseResult] = useState(null)
   const [error, setError] = useState(null)
+  const [progressMessage, setProgressMessage] = useState(null)
+  const [monthMismatch, setMonthMismatch] = useState(null)
 
   const newCategories = transactions
     .filter((t) => t.is_new_category)
@@ -47,12 +49,26 @@ export default function App() {
   async function handleFileSelected(file) {
     setError(null)
     setIsProcessing(true)
+    setProgressMessage('Uploading document...')
     try {
-      const result = await uploadDocument(file, year, month)
+      const result = await uploadDocumentStream(file, year, month, (event) => {
+        setProgressMessage(event.message)
+      })
       setParseResult(result)
       setTransactions(result.transactions || [])
+      setProgressMessage(null)
+      // Check for month mismatch
+      if (result.statement_period) {
+        const detectedMonth = result.statement_period.split(' ')[0]
+        if (detectedMonth && detectedMonth.toLowerCase() !== month.toLowerCase()) {
+          setMonthMismatch({ detected: result.statement_period, selected: month })
+        } else {
+          setMonthMismatch(null)
+        }
+      }
     } catch (err) {
       setError(err.message)
+      setProgressMessage(null)
     } finally {
       setIsProcessing(false)
     }
@@ -120,12 +136,29 @@ export default function App() {
     }
   }
 
+  async function handleLoadDemo() {
+    setError(null)
+    setIsProcessing(true)
+    try {
+      const result = await getDemoData()
+      setParseResult(result)
+      setTransactions(result.transactions || [])
+      setYear(2025)
+      setMonth('March')
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setIsProcessing(false)
+    }
+  }
+
   function handleProcessNew() {
     setView('main')
     setTransactions([])
     setParseResult(null)
     setSyncResult(null)
     setError(null)
+    setMonthMismatch(null)
   }
 
   return (
@@ -153,7 +186,20 @@ export default function App() {
 
           {view === 'main' && (
             <>
-              <UploadZone onFileSelected={handleFileSelected} isProcessing={isProcessing} />
+              <UploadZone onFileSelected={handleFileSelected} isProcessing={isProcessing} onLoadDemo={handleLoadDemo} progressMessage={progressMessage} />
+
+              {monthMismatch && (
+                <div className="bg-amber-50 border border-amber-300 text-amber-900 p-4 rounded-xl flex items-center gap-3">
+                  <span className="material-symbols-outlined text-amber-600">warning</span>
+                  <p className="text-sm font-medium">
+                    This looks like a <strong>{monthMismatch.detected}</strong> statement, but you have <strong>{monthMismatch.selected}</strong> selected.
+                    Transactions will sync to the {monthMismatch.selected} tab. Change the month in the sidebar if needed.
+                  </p>
+                  <button onClick={() => setMonthMismatch(null)} className="ml-auto text-amber-600 hover:text-amber-800">
+                    <span className="material-symbols-outlined text-sm">close</span>
+                  </button>
+                </div>
+              )}
 
               {transactions.length > 0 && (
                 <section className="grid grid-cols-1 lg:grid-cols-5 gap-8 items-start">
