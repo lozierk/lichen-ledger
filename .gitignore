@@ -9,3 +9,5 @@ uploads/
 .claude/
 _old_*
 *-statements-*.pdf
+processed_statements.md
+RESUME_FROM_*
