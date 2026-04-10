@@ -211,6 +211,46 @@ class SheetsService:
             except Exception as e:
                 print(f"[MCP] Warning: could not write headers to {month}: {e}")
 
+        # Format header rows (row 1) across all monthly tabs:
+        # dark blue background, white bold text
+        last_col = chr(ord("A") + len(columns) - 1)
+        for month in MONTHS:
+            header_range = f"{month}!A1:{last_col}1"
+            try:
+                await self._call_tool("formatGoogleSheetCells", {
+                    "spreadsheetId": sheet_id,
+                    "range": header_range,
+                    "backgroundColor": {"red": 0.16, "green": 0.25, "blue": 0.38},
+                })
+                await self._call_tool("formatGoogleSheetText", {
+                    "spreadsheetId": sheet_id,
+                    "range": header_range,
+                    "foregroundColor": {"red": 1, "green": 1, "blue": 1},
+                    "bold": True,
+                })
+            except Exception as e:
+                print(f"[MCP] Warning: could not format header in {month}: {e}")
+
+        # Pre-format data rows (2-500) with white background, black text
+        for month in MONTHS:
+            data_range = f"{month}!A2:{last_col}500"
+            try:
+                await self._call_tool("formatGoogleSheetCells", {
+                    "spreadsheetId": sheet_id,
+                    "range": data_range,
+                    "backgroundColor": {"red": 1, "green": 1, "blue": 1},
+                })
+                await self._call_tool("formatGoogleSheetText", {
+                    "spreadsheetId": sheet_id,
+                    "range": data_range,
+                    "foregroundColor": {"red": 0, "green": 0, "blue": 0},
+                    "bold": False,
+                })
+            except Exception as e:
+                print(f"[MCP] Warning: could not format data rows in {month}: {e}")
+
+        print("[MCP] Sheet formatting complete")
+
         # Persist the new sheet ID to .env and runtime dict
         save_sheet_id(year, sheet_id)
 
@@ -321,6 +361,8 @@ class SheetsService:
     async def append_transactions(self, year: int, month: str, rows: list[list]) -> int:
         """Append rows to the specified month tab. Returns count appended."""
         sheet_id = self._get_sheet_id(year)
+        cols = self._get_columns(year)
+        last_col = chr(ord("A") + len(cols) - 1)
 
         result = await self._call_tool("appendSpreadsheetRows", {
             "spreadsheetId": sheet_id,
@@ -328,6 +370,26 @@ class SheetsService:
             "values": rows,
         })
         print(f"[MCP] Appended {len(rows)} rows to {month}: {result}")
+
+        # Fix formatting: data rows should have white background + black text
+        # (header row blue formatting bleeds into appended rows)
+        data_range = f"{month}!A2:{last_col}500"
+        try:
+            await self._call_tool("formatGoogleSheetCells", {
+                "spreadsheetId": sheet_id,
+                "range": data_range,
+                "backgroundColor": {"red": 1, "green": 1, "blue": 1},
+            })
+            await self._call_tool("formatGoogleSheetText", {
+                "spreadsheetId": sheet_id,
+                "range": data_range,
+                "foregroundColor": {"red": 0, "green": 0, "blue": 0},
+                "bold": False,
+            })
+            print(f"[MCP] Formatted data rows in {month}: white bg, black text")
+        except Exception as e:
+            print(f"[MCP] Warning: could not format data rows in {month}: {e}")
+
         return len(rows)
 
     async def get_summary(self, year: int, month: str) -> dict:
