@@ -147,6 +147,7 @@ The cost of not solving this: missed deductions at tax time (real money lost), s
 
 | Layer | Technology | Why |
 |-------|-----------|-----|
+| Frontend Design | Google Stitch | AI-generated HTML/CSS mockups used as pixel-accurate UI targets |
 | Frontend | React 19 + Vite + Tailwind CSS 3 | Fast setup, utility styling, hot reload |
 | Backend | Python 3.13 + FastAPI | Async endpoints, good PDF library support |
 | PDF Processing | PyMuPDF (fitz) | Converts PDF pages to images at 200 DPI for Claude Vision |
