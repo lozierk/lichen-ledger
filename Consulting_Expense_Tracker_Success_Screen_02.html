@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Lichen Ledger - Success State</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "on-tertiary-fixed": "#05210e",
+            "on-tertiary-container": "#abcaae",
+            "on-tertiary": "#ffffff",
+            "on-secondary-container": "#4f6779",
+            "on-secondary-fixed": "#021e2d",
+            "tertiary-container": "#3a5640",
+            "secondary-fixed-dim": "#b1cade",
+            "surface-container": "#eceeed",
+            "on-error": "#ffffff",
+            "surface-container-highest": "#e1e3e2",
+            "secondary-fixed": "#cce6fb",
+            "on-secondary": "#ffffff",
+            "surface-container-low": "#f2f4f3",
+            "outline-variant": "#c2c9bb",
+            "secondary": "#496173",
+            "on-surface-variant": "#42493e",
+            "on-primary-fixed-variant": "#23501e",
+            "surface-container-lowest": "#ffffff",
+            "primary-fixed-dim": "#a1d494",
+            "on-primary-container": "#9dd090",
+            "primary-container": "#2d5a27",
+            "on-primary": "#ffffff",
+            "error": "#ba1a1a",
+            "on-primary-fixed": "#002201",
+            "on-error-container": "#93000a",
+            "error-container": "#ffdad6",
+            "surface-dim": "#d8dada",
+            "inverse-primary": "#a1d494",
+            "on-secondary-fixed-variant": "#31495b",
+            "tertiary": "#243f2a",
+            "surface-bright": "#f8faf9",
+            "on-tertiary-fixed-variant": "#314d37",
+            "on-surface": "#191c1c",
+            "inverse-surface": "#2e3131",
+            "inverse-on-surface": "#eff1f0",
+            "surface-variant": "#e1e3e2",
+            "tertiary-fixed": "#caebcd",
+            "primary-fixed": "#bcf0ae",
+            "surface": "#f8faf9",
+            "secondary-container": "#cce6fb",
+            "on-background": "#191c1c",
+            "outline": "#72796e",
+            "tertiary-fixed-dim": "#afceb2",
+            "background": "#f8faf9",
+            "primary": "#154212",
+            "surface-tint": "#3b6934",
+            "surface-container-high": "#e6e9e8"
+          },
+          fontFamily: {
+            "headline": ["Inter"],
+            "body": ["Inter"],
+            "label": ["Inter"]
+          },
+          borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+        },
+      },
+    }
+  </script>
+<style>
+    body { font-family: 'Inter', sans-serif; }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    .glass-effect {
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+    }
+    .success-gradient {
+      background: linear-gradient(145deg, #154212 0%, #2d5a27 100%);
+    }
+  </style>
+</head>
+<body class="bg-background text-on-surface flex min-h-screen">
+<!-- SideNavBar -->
+<aside class="h-screen w-64 fixed left-0 top-0 overflow-y-auto bg-stone-100 dark:bg-stone-900 flex flex-col py-8 px-4 space-y-1 z-50">
+<div class="mb-8 px-4">
+<div class="text-lg font-bold text-emerald-900 dark:text-emerald-50 mb-1">Lichen Ledger</div>
+<div class="flex items-center space-x-2">
+<div class="w-8 h-8 rounded-full bg-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary text-xs">calendar_today</span>
+</div>
+<div>
+<p class="font-['Inter'] text-sm uppercase tracking-wider text-emerald-800 dark:text-emerald-400 font-bold">2025</p>
+<p class="text-[10px] text-on-surface-variant uppercase tracking-widest">Fiscal Year</p>
+</div>
+</div>
+</div>
+<nav class="flex-grow space-y-1">
+<div class="text-[10px] font-bold text-stone-400 uppercase tracking-[0.2em] px-4 mb-2">Monthly Ledgers</div>
+<a class="flex items-center justify-between text-stone-600 dark:text-stone-400 hover:text-emerald-700 px-4 py-2 hover:bg-white/50 dark:hover:bg-stone-800/50 transition-all duration-300 hover:translate-x-1" href="#">
+<span>January</span> <span class="material-symbols-outlined text-sm">chevron_right</span>
+</a>
+<a class="flex items-center justify-between text-stone-600 dark:text-stone-400 hover:text-emerald-700 px-4 py-2 hover:bg-white/50 dark:hover:bg-stone-800/50 transition-all duration-300 hover:translate-x-1" href="#">
+<span>February</span> <span class="material-symbols-outlined text-sm">chevron_right</span>
+</a>
+<a class="flex items-center justify-between bg-white dark:bg-stone-800 text-emerald-900 dark:text-emerald-100 font-bold rounded-lg ml-2 shadow-sm px-4 py-2 hover:translate-x-1 transition-transform" href="#">
+<span>March</span> <span class="material-symbols-outlined text-sm">chevron_right</span>
+</a>
+<a class="flex items-center justify-between text-stone-600 dark:text-stone-400 hover:text-emerald-700 px-4 py-2 hover:bg-white/50 dark:hover:bg-stone-800/50 transition-all duration-300 hover:translate-x-1" href="#">
+<span>April</span> <span class="material-symbols-outlined text-sm">chevron_right</span>
+</a>
+<a class="flex items-center justify-between text-stone-600 dark:text-stone-400 hover:text-emerald-700 px-4 py-2 hover:bg-white/50 dark:hover:bg-stone-800/50 transition-all duration-300 hover:translate-x-1" href="#">
+<span>May</span> <span class="material-symbols-outlined text-sm">chevron_right</span>
+</a>
+<a class="flex items-center justify-between text-stone-600 dark:text-stone-400 hover:text-emerald-700 px-4 py-2 hover:bg-white/50 dark:hover:bg-stone-800/50 transition-all duration-300 hover:translate-x-1" href="#">
+<span>June</span> <span class="material-symbols-outlined text-sm">chevron_right</span>
+</a>
+</nav>
+<div class="pt-4 mt-auto border-t border-stone-200/50 space-y-1">
+<button class="w-full text-left flex items-center px-4 py-2 text-stone-600 dark:text-stone-400 hover:text-emerald-700 transition-all">
+<span class="material-symbols-outlined mr-3 text-lg">settings</span>
+<span class="font-['Inter'] text-sm uppercase tracking-wider">Settings</span>
+</button>
+<button class="w-full text-left flex items-center px-4 py-2 text-stone-600 dark:text-stone-400 hover:text-emerald-700 transition-all">
+<span class="material-symbols-outlined mr-3 text-lg">help</span>
+<span class="font-['Inter'] text-sm uppercase tracking-wider">Support</span>
+</button>
+<div class="px-4 py-4 mt-2">
+<button class="w-full bg-secondary text-white rounded-xl py-3 px-4 text-xs font-bold uppercase tracking-widest flex items-center justify-center space-x-2 hover:opacity-90 transition-opacity">
+<span>Open Google Sheet</span>
+<span class="material-symbols-outlined text-sm">open_in_new</span>
+</button>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-64 flex-grow relative">
+<!-- TopNavBar -->
+<header class="bg-stone-50/80 dark:bg-stone-950/80 backdrop-blur-xl flex justify-between items-center w-full px-6 py-4 docked full-width top-0 sticky z-40">
+<h1 class="text-xl font-bold text-emerald-950 dark:text-emerald-50 font-['Inter'] tracking-tight">Command Center</h1>
+<div class="flex items-center space-x-4">
+<button class="text-stone-500 dark:text-stone-400 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 p-2 rounded-full transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-stone-500 dark:text-stone-400 hover:bg-stone-200/50 dark:hover:bg-stone-800/50 p-2 rounded-full transition-colors">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+</header>
+<div class="max-w-6xl mx-auto px-16 py-12">
+<!-- Success Hero Banner (Bento Style) -->
+<div class="grid grid-cols-12 gap-6 mb-12">
+<div class="col-span-12 md:col-span-8 bg-surface-container-lowest rounded-xl p-10 flex flex-col items-center justify-center text-center shadow-sm relative overflow-hidden">
+<div class="absolute top-0 right-0 p-8 opacity-5">
+<span class="material-symbols-outlined text-[120px] text-primary">check_circle</span>
+</div>
+<div class="w-20 h-20 bg-primary-fixed rounded-full flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-on-primary-fixed text-4xl" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<h2 class="text-3xl font-headline font-extrabold text-on-surface tracking-tight mb-2">Sync Complete</h2>
+<p class="text-on-surface-variant body-md max-w-md mx-auto">
+            All 12 transactions from <span class="font-bold text-primary">VISA_March_2025.pdf</span> have been successfully parsed and synced to your fiscal ledger.
+          </p>
+<div class="mt-8 flex space-x-4">
+<button class="success-gradient text-white px-8 py-3 rounded-full font-bold text-sm shadow-lg hover:opacity-90 transition-all flex items-center">
+<span class="material-symbols-outlined mr-2">grid_on</span>
+              View Sheet
+            </button>
+<button class="bg-surface-container text-on-secondary-container px-8 py-3 rounded-full font-bold text-sm hover:bg-surface-container-high transition-all flex items-center">
+              Process New
+            </button>
+</div>
+</div>
+<div class="col-span-12 md:col-span-4 bg-tertiary-fixed rounded-xl p-8 flex flex-col justify-between shadow-sm border border-tertiary-fixed-dim/20">
+<div>
+<h3 class="text-on-tertiary-fixed-variant font-bold text-sm uppercase tracking-widest mb-4">March Summary</h3>
+<div class="space-y-4">
+<div>
+<span class="text-xs text-on-tertiary-fixed/60 uppercase">Processed Today</span>
+<p class="text-2xl font-black text-on-tertiary-fixed">€ 2,481.50</p>
+</div>
+<div class="h-[1px] bg-on-tertiary-fixed/10"></div>
+<div>
+<span class="text-xs text-on-tertiary-fixed/60 uppercase">Sheet Records</span>
+<p class="text-2xl font-black text-on-tertiary-fixed">128 Total</p>
+</div>
+</div>
+</div>
+<div class="mt-6">
+<span class="text-[10px] font-bold text-on-tertiary-fixed/40 uppercase">Last Sync: 2 mins ago</span>
+</div>
+</div>
+</div>
+<!-- Empty State / Success Placeholder for Parsed List -->
+<section class="mb-16">
+<div class="flex justify-between items-end mb-6">
+<h3 class="text-lg font-bold text-on-surface tracking-tight">Active Workspace</h3>
+<span class="label-md text-secondary bg-secondary-fixed px-3 py-1 rounded-full text-[10px] font-bold">QUEUE EMPTY</span>
+</div>
+<div class="bg-surface-container-low rounded-xl border border-dashed border-outline-variant/30 p-16 flex flex-col items-center justify-center text-center">
+<div class="w-16 h-16 bg-surface-container-lowest rounded-full flex items-center justify-center mb-4 text-outline">
+<span class="material-symbols-outlined text-3xl">inbox</span>
+</div>
+<p class="text-on-surface-variant font-medium">Your parsing queue is clear.</p>
+<p class="text-on-surface-variant/60 text-sm mt-1">Upload a PDF or CSV statement to begin the next reconciliation.</p>
+</div>
+</section>
+<!-- Processed Statements Log -->
+<section>
+<div class="flex justify-between items-center mb-6">
+<h3 class="text-lg font-bold text-on-surface tracking-tight">Statement History</h3>
+<button class="text-secondary text-sm font-semibold hover:underline">View All Logs</button>
+</div>
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low">
+<th class="px-6 py-4 text-[10px] font-bold text-secondary uppercase tracking-widest">Document Name</th>
+<th class="px-6 py-4 text-[10px] font-bold text-secondary uppercase tracking-widest">Processed Date</th>
+<th class="px-6 py-4 text-[10px] font-bold text-secondary uppercase tracking-widest text-right">Transactions</th>
+<th class="px-6 py-4 text-[10px] font-bold text-secondary uppercase tracking-widest text-right">Status</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container">
+<!-- Newest Sync -->
+<tr class="hover:bg-surface-variant transition-colors group">
+<td class="px-6 py-5">
+<div class="flex items-center space-x-3">
+<span class="material-symbols-outlined text-primary">picture_as_pdf</span>
+<span class="font-medium text-on-surface">VISA_March_2025.pdf</span>
+</div>
+</td>
+<td class="px-6 py-5 text-on-surface-variant text-sm">March 14, 2025 · 14:22</td>
+<td class="px-6 py-5 text-right font-mono text-sm text-on-surface">12</td>
+<td class="px-6 py-5 text-right">
+<span class="bg-primary-fixed text-on-primary-fixed px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">
+                    SYNCED TO SHEETS
+                  </span>
+</td>
+</tr>
+<!-- Previous -->
+<tr class="hover:bg-surface-variant transition-colors group">
+<td class="px-6 py-5">
+<div class="flex items-center space-x-3 text-on-surface-variant/60">
+<span class="material-symbols-outlined">picture_as_pdf</span>
+<span class="text-sm">AMEX_Q1_Summary.pdf</span>
+</div>
+</td>
+<td class="px-6 py-5 text-on-surface-variant/60 text-sm">March 02, 2025 · 09:10</td>
+<td class="px-6 py-5 text-right font-mono text-sm text-on-surface-variant/60">48</td>
+<td class="px-6 py-5 text-right">
+<span class="bg-surface-container-highest text-on-surface-variant px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">
+                    ARCHIVED
+                  </span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</div>
+<!-- Background Decorative Element (Asymmetric) -->
+<div class="fixed top-0 right-0 -z-10 opacity-20 pointer-events-none translate-x-1/4 -translate-y-1/4">
+<div class="w-[800px] h-[800px] rounded-full bg-primary-fixed filter blur-[120px]"></div>
+</div>
+</main>
+</body></html>

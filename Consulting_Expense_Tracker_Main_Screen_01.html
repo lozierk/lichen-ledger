@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "surface-container-highest": "#e1e3e2",
+            "background": "#f8faf9",
+            "on-primary": "#ffffff",
+            "surface-container-high": "#e6e9e8",
+            "surface-container-low": "#f2f4f3",
+            "on-primary-container": "#9dd090",
+            "surface-tint": "#3b6934",
+            "secondary-fixed-dim": "#b1cade",
+            "secondary-fixed": "#cce6fb",
+            "on-tertiary": "#ffffff",
+            "on-error-container": "#93000a",
+            "tertiary-container": "#3a5640",
+            "surface-bright": "#f8faf9",
+            "on-surface": "#191c1c",
+            "on-background": "#191c1c",
+            "on-primary-fixed": "#002201",
+            "primary-container": "#2d5a27",
+            "secondary-container": "#cce6fb",
+            "surface-container-lowest": "#ffffff",
+            "surface": "#f8faf9",
+            "tertiary-fixed-dim": "#afceb2",
+            "tertiary-fixed": "#caebcd",
+            "inverse-surface": "#2e3131",
+            "on-tertiary-fixed": "#05210e",
+            "on-secondary-fixed": "#021e2d",
+            "on-secondary-container": "#4f6779",
+            "outline-variant": "#c2c9bb",
+            "on-error": "#ffffff",
+            "error": "#ba1a1a",
+            "outline": "#72796e",
+            "on-tertiary-container": "#abcaae",
+            "tertiary": "#243f2a",
+            "surface-variant": "#e1e3e2",
+            "on-tertiary-fixed-variant": "#314d37",
+            "error-container": "#ffdad6",
+            "surface-container": "#eceeed",
+            "on-secondary-fixed-variant": "#31495b",
+            "on-secondary": "#ffffff",
+            "on-surface-variant": "#42493e",
+            "on-primary-fixed-variant": "#23501e",
+            "inverse-primary": "#a1d494",
+            "secondary": "#496173",
+            "inverse-on-surface": "#eff1f0",
+            "primary-fixed": "#bcf0ae",
+            "surface-dim": "#d8dada",
+            "primary": "#154212",
+            "primary-fixed-dim": "#a1d494"
+          },
+          fontFamily: {
+            "headline": ["Inter", "sans-serif"],
+            "body": ["Inter", "sans-serif"],
+            "label": ["Inter", "sans-serif"]
+          },
+          borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    body { font-family: 'Inter', sans-serif; }
+    .glass-header {
+      background: rgba(248, 250, 249, 0.8);
+      backdrop-filter: blur(20px);
+    }
+    .cta-gradient {
+      background: linear-gradient(145deg, #154212 0%, #2d5a27 100%);
+    }
+  </style>
+</head>
+<body class="bg-background text-on-background selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- Side Navigation Rail -->
+<aside class="bg-stone-100 dark:bg-stone-900 h-screen w-64 fixed left-0 top-0 overflow-y-auto z-50 flex flex-col py-8 px-4 space-y-1">
+<div class="mb-8 px-4">
+<div class="flex items-center gap-3 mb-2">
+<div class="w-8 h-8 rounded bg-primary flex items-center justify-center text-white">
+<span class="material-symbols-outlined text-sm">potted_plant</span>
+</div>
+<h1 class="text-lg font-bold text-emerald-900 dark:text-emerald-50">Lichen Ledger</h1>
+</div>
+<div class="mt-6 p-4 bg-white dark:bg-stone-800 rounded-xl shadow-sm">
+<p class="font-['Inter'] text-sm uppercase tracking-wider text-stone-500 mb-1">Fiscal Year</p>
+<div class="flex items-center justify-between">
+<span class="text-lg font-bold text-emerald-900 dark:text-emerald-50">2025</span>
+<span class="material-symbols-outlined text-emerald-800">calendar_month</span>
+</div>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<!-- Active Month Detection: Currently assuming "March" is active for early tax prep/current view -->
+<a class="text-stone-600 dark:text-stone-400 hover:text-emerald-700 px-4 py-2 flex items-center justify-between hover:bg-white/50 dark:hover:bg-stone-800/50 transition-all duration-300 font-['Inter'] text-sm uppercase tracking-wider" href="#">
+<span>January</span> <span class="material-symbols-outlined text-xs">chevron_right</span>
+</a>
+<a class="text-stone-600 dark:text-stone-400 hover:text-emerald-700 px-4 py-2 flex items-center justify-between hover:bg-white/50 dark:hover:bg-stone-800/50 transition-all duration-300 font-['Inter'] text-sm uppercase tracking-wider" href="#">
+<span>February</span> <span class="material-symbols-outlined text-xs">chevron_right</span>
+</a>
+<a class="bg-white dark:bg-stone-800 text-emerald-900 dark:text-emerald-100 font-bold rounded-lg ml-2 shadow-sm px-4 py-2 flex items-center justify-between font-['Inter'] text-sm uppercase tracking-wider" href="#">
+<span>March</span> <span class="material-symbols-outlined text-xs">chevron_right</span>
+</a>
+<a class="text-stone-600 dark:text-stone-400 hover:text-emerald-700 px-4 py-2 flex items-center justify-between hover:bg-white/50 dark:hover:bg-stone-800/50 transition-all duration-300 font-['Inter'] text-sm uppercase tracking-wider" href="#">
+<span>April</span> <span class="material-symbols-outlined text-xs">chevron_right</span>
+</a>
+<a class="text-stone-600 dark:text-stone-400 hover:text-emerald-700 px-4 py-2 flex items-center justify-between hover:bg-white/50 dark:hover:bg-stone-800/50 transition-all duration-300 font-['Inter'] text-sm uppercase tracking-wider" href="#">
+<span>May</span> <span class="material-symbols-outlined text-xs">chevron_right</span>
+</a>
+<a class="text-stone-600 dark:text-stone-400 hover:text-emerald-700 px-4 py-2 flex items-center justify-between hover:bg-white/50 dark:hover:bg-stone-800/50 transition-all duration-300 font-['Inter'] text-sm uppercase tracking-wider" href="#">
+<span>June</span> <span class="material-symbols-outlined text-xs">chevron_right</span>
+</a>
+<a class="text-stone-600 dark:text-stone-400 hover:text-emerald-700 px-4 py-2 flex items-center justify-between hover:bg-white/50 dark:hover:bg-stone-800/50 transition-all duration-300 font-['Inter'] text-sm uppercase tracking-wider" href="#">
+<span>July</span> <span class="material-symbols-outlined text-xs">chevron_right</span>
+</a>
+<a class="text-stone-600 dark:text-stone-400 hover:text-emerald-700 px-4 py-2 flex items-center justify-between hover:bg-white/50 dark:hover:bg-stone-800/50 transition-all duration-300 font-['Inter'] text-sm uppercase tracking-wider" href="#">
+<span>August</span> <span class="material-symbols-outlined text-xs">chevron_right</span>
+</a>
+<a class="text-stone-600 dark:text-stone-400 hover:text-emerald-700 px-4 py-2 flex items-center justify-between hover:bg-white/50 dark:hover:bg-stone-800/50 transition-all duration-300 font-['Inter'] text-sm uppercase tracking-wider" href="#">
+<span>September</span> <span class="material-symbols-outlined text-xs">chevron_right</span>
+</a>
+<a class="text-stone-600 dark:text-stone-400 hover:text-emerald-700 px-4 py-2 flex items-center justify-between hover:bg-white/50 dark:hover:bg-stone-800/50 transition-all duration-300 font-['Inter'] text-sm uppercase tracking-wider" href="#">
+<span>October</span> <span class="material-symbols-outlined text-xs">chevron_right</span>
+</a>
+<a class="text-stone-600 dark:text-stone-400 hover:text-emerald-700 px-4 py-2 flex items-center justify-between hover:bg-white/50 dark:hover:bg-stone-800/50 transition-all duration-300 font-['Inter'] text-sm uppercase tracking-wider" href="#">
+<span>November</span> <span class="material-symbols-outlined text-xs">chevron_right</span>
+</a>
+<a class="text-stone-600 dark:text-stone-400 hover:text-emerald-700 px-4 py-2 flex items-center justify-between hover:bg-white/50 dark:hover:bg-stone-800/50 transition-all duration-300 font-['Inter'] text-sm uppercase tracking-wider" href="#">
+<span>December</span> <span class="material-symbols-outlined text-xs">chevron_right</span>
+</a>
+</nav>
+<div class="pt-8 border-t border-stone-200 dark:border-stone-800 mt-auto">
+<a class="flex items-center gap-3 px-4 py-2 text-stone-600 hover:text-primary transition-colors text-sm font-medium" href="#">
+<span class="material-symbols-outlined">table_chart</span>
+        Open Google Sheet
+      </a>
+<div class="flex flex-col mt-4 space-y-1">
+<a class="px-4 py-2 text-stone-500 text-xs flex items-center gap-2" href="#">
+<span class="material-symbols-outlined text-sm">settings</span> Settings
+        </a>
+<a class="px-4 py-2 text-stone-500 text-xs flex items-center gap-2" href="#">
+<span class="material-symbols-outlined text-sm">help</span> Support
+        </a>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-64 min-h-screen">
+<!-- Sticky Top Bar -->
+<header class="glass-header sticky top-0 z-40 w-full px-12 py-6 flex justify-between items-center">
+<div>
+<h2 class="text-2xl font-bold tracking-tight text-on-surface">Command Center</h2>
+<p class="text-on-surface-variant text-sm">Tax Season Transition · March 2025</p>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 rounded-full hover:bg-stone-200/50 transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 rounded-full hover:bg-stone-200/50 transition-colors">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+</header>
+<div class="px-12 py-8 max-w-7xl mx-auto space-y-12">
+<!-- 1. Central Upload Area -->
+<section class="w-full">
+<div class="relative group">
+<div class="absolute -inset-1 bg-gradient-to-r from-primary/10 to-secondary/10 rounded-xl blur opacity-25 group-hover:opacity-50 transition duration-1000"></div>
+<div class="relative border-2 border-dashed border-outline/30 bg-surface-container-low p-12 rounded-xl text-center hover:bg-surface-container-high transition-all cursor-pointer">
+<div class="flex flex-col items-center justify-center space-y-4">
+<div class="w-16 h-16 rounded-full bg-primary-fixed flex items-center justify-center text-on-primary-fixed">
+<span class="material-symbols-outlined text-3xl">upload_file</span>
+</div>
+<div>
+<h3 class="text-xl font-semibold text-on-surface">Upload statement or receipt</h3>
+<p class="text-on-surface-variant body-md mt-1">Drag and drop your PDF statement or receipt image here to start parsing</p>
+</div>
+<button class="cta-gradient px-8 py-3 rounded-full text-on-primary font-medium shadow-lg hover:opacity-90 active:scale-95 transition-all">
+                Select Files
+              </button>
+</div>
+</div>
+</div>
+</section>
+<!-- 2. Split-View Interactive Section -->
+<section class="grid grid-cols-1 lg:grid-cols-5 gap-8 items-start">
+<!-- Statement Preview (Left) -->
+<div class="lg:col-span-2 space-y-4">
+<div class="flex items-center justify-between">
+<h3 class="label-md uppercase tracking-wider text-secondary font-semibold">Statement Preview</h3>
+<span class="text-xs text-on-surface-variant">VISA_March_2025.pdf</span>
+</div>
+<div class="aspect-[3/4] bg-white rounded-xl shadow-sm border border-outline-variant/10 overflow-hidden relative">
+<img alt="high-contrast scan of a formal bank statement with clear columns and legible text" class="w-full h-full object-cover opacity-80 blur-[2px]" data-alt="Monochromatic formal bank statement document with structured tables and professional typography on white paper texture" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAeBOOJmJiQmkc9dfY4br3P13XPb6s-bl910uY0NRv1Zz2nOefr56HPry1g6gtSWY5CyEyguaMBZ3rqFv9QyJH4gLANKYxVmQXWmR1hGpyBEm27FP3KsMhLVqrbnACBVaHKSjOxM6_J6M726apZwP6ZWfo4uqhnrBB_CtrDGyklq4A_6lp9Jyoswx8l5t2dzFYabi_JDbKc4FiTFNth8wSGMh5Syr-mzqsqsH2nXNuAbkBiZrqDXPmu8_8yZ2vtIzpbIoWIw02saif9"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background/40 to-transparent"></div>
+<!-- OCR Visualization Overlays -->
+<div class="absolute top-20 left-10 w-40 h-6 bg-primary/10 border border-primary/20 rounded"></div>
+<div class="absolute top-32 left-10 w-64 h-6 bg-primary/10 border border-primary/20 rounded"></div>
+<div class="absolute top-44 left-10 w-32 h-6 bg-primary/10 border border-primary/20 rounded"></div>
+<div class="absolute top-20 right-10 w-20 h-6 bg-primary/10 border border-primary/20 rounded"></div>
+</div>
+</div>
+<!-- Parsed Transactions (Right) -->
+<div class="lg:col-span-3 space-y-4">
+<div class="flex items-center justify-between">
+<h3 class="label-md uppercase tracking-wider text-secondary font-semibold">Parsed Transactions</h3>
+<span class="bg-primary-fixed text-on-primary-fixed px-3 py-1 rounded-full text-xs font-bold">12 New Detected</span>
+</div>
+<!-- Alert: New Category Detected -->
+<div class="bg-secondary-fixed/50 border-l-4 border-secondary p-4 rounded-r-xl flex items-center justify-between">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary">new_releases</span>
+<div>
+<p class="text-on-secondary-fixed text-sm font-bold">New Category Detected</p>
+<p class="text-xs text-on-secondary-fixed-variant">"Cloud Infrastructure" doesn't match your ledger.</p>
+</div>
+</div>
+<div class="flex gap-2">
+<input class="bg-white border-none rounded-lg text-xs py-1.5 focus:ring-secondary" placeholder="Map to..." type="text"/>
+<button class="bg-secondary text-white px-3 py-1.5 rounded-lg text-xs">Save</button>
+</div>
+</div>
+<!-- Transaction List -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm">
+<div class="divide-y divide-surface-container">
+<!-- Transaction Row 1 -->
+<div class="p-4 flex items-center justify-between hover:bg-surface-variant transition-colors">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-stone-100 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined">shopping_cart</span>
+</div>
+<div>
+<h4 class="body-md font-bold text-on-surface">Whole Foods Market</h4>
+<p class="text-xs text-on-surface-variant">Mar 12, 2025</p>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<span class="bg-primary-fixed text-on-primary-fixed text-[10px] uppercase font-black px-2.5 py-1 rounded-full tracking-tighter">Groceries</span>
+<span class="font-mono font-bold text-on-surface">-$142.30</span>
+<div class="flex gap-1">
+<button class="w-8 h-8 rounded-full flex items-center justify-center hover:bg-primary/10 text-primary transition-colors">
+<span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</button>
+<button class="w-8 h-8 rounded-full flex items-center justify-center hover:bg-secondary/10 text-secondary transition-colors">
+<span class="material-symbols-outlined text-xl">edit</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Transaction Row 2 -->
+<div class="p-4 flex items-center justify-between hover:bg-surface-variant transition-colors">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-stone-100 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined">print</span>
+</div>
+<div>
+<h4 class="body-md font-bold text-on-surface">Staples Office</h4>
+<p class="text-xs text-on-surface-variant">Mar 10, 2025</p>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<span class="bg-secondary-fixed text-on-secondary-fixed text-[10px] uppercase font-black px-2.5 py-1 rounded-full tracking-tighter">Office Supplies</span>
+<span class="font-mono font-bold text-on-surface">-$84.00</span>
+<div class="flex gap-1">
+<button class="w-8 h-8 rounded-full flex items-center justify-center hover:bg-primary/10 text-primary transition-colors">
+<span class="material-symbols-outlined text-xl">check_circle</span>
+</button>
+<button class="w-8 h-8 rounded-full flex items-center justify-center hover:bg-secondary/10 text-secondary transition-colors">
+<span class="material-symbols-outlined text-xl">edit</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Transaction Row 3 -->
+<div class="p-4 flex items-center justify-between hover:bg-surface-variant transition-colors">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-stone-100 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined">cloud</span>
+</div>
+<div>
+<h4 class="body-md font-bold text-on-surface">AWS Cloud Services</h4>
+<p class="text-xs text-on-surface-variant">Mar 09, 2025</p>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<span class="bg-error-container text-on-error-container text-[10px] uppercase font-black px-2.5 py-1 rounded-full tracking-tighter">New Category?</span>
+<span class="font-mono font-bold text-on-surface">-$12.99</span>
+<div class="flex gap-1">
+<button class="w-8 h-8 rounded-full flex items-center justify-center hover:bg-primary/10 text-primary transition-colors">
+<span class="material-symbols-outlined text-xl">check_circle</span>
+</button>
+<button class="w-8 h-8 rounded-full flex items-center justify-center hover:bg-secondary/10 text-secondary transition-colors">
+<span class="material-symbols-outlined text-xl">edit</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-low p-4 text-center">
+<button class="text-primary font-bold text-sm hover:underline">Confirm All 12 Transactions</button>
+</div>
+</div>
+</div>
+</section>
+<!-- 3. Processed Statements Log -->
+<section class="space-y-4">
+<h3 class="label-md uppercase tracking-wider text-secondary font-semibold">Processed Statements Log</h3>
+<div class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/10 overflow-hidden">
+<table class="w-full text-left">
+<thead class="bg-surface-container-low">
+<tr>
+<th class="px-6 py-4 label-md text-secondary font-bold tracking-widest uppercase">Statement Name</th>
+<th class="px-6 py-4 label-md text-secondary font-bold tracking-widest uppercase">Date Processed</th>
+<th class="px-6 py-4 label-md text-secondary font-bold tracking-widest uppercase">Entries</th>
+<th class="px-6 py-4 label-md text-secondary font-bold tracking-widest uppercase">Status</th>
+<th class="px-6 py-4"></th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container">
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-4 flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">picture_as_pdf</span>
+<span class="body-md font-medium">VISA_February_2025.pdf</span>
+</td>
+<td class="px-6 py-4 text-on-surface-variant body-md italic">Feb 28, 2025</td>
+<td class="px-6 py-4 text-on-surface-variant font-mono">42</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2 text-emerald-700 font-bold text-xs uppercase tracking-tight">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">cloud_done</span>
+                    Synced to Sheets
+                  </div>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="opacity-0 group-hover:opacity-100 transition-opacity text-primary text-sm font-bold">View</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-4 flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">picture_as_pdf</span>
+<span class="body-md font-medium">Amex_Biz_Gold_Feb.pdf</span>
+</td>
+<td class="px-6 py-4 text-on-surface-variant body-md italic">Feb 26, 2025</td>
+<td class="px-6 py-4 text-on-surface-variant font-mono">18</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2 text-emerald-700 font-bold text-xs uppercase tracking-tight">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">cloud_done</span>
+                    Synced to Sheets
+                  </div>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="opacity-0 group-hover:opacity-100 transition-opacity text-primary text-sm font-bold">View</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="px-6 py-4 flex items-center gap-3 text-stone-400">
+<span class="material-symbols-outlined">image</span>
+<span class="body-md font-medium">Receipt_Coffee_Mar01.jpg</span>
+</td>
+<td class="px-6 py-4 text-on-surface-variant body-md italic">Mar 01, 2025</td>
+<td class="px-6 py-4 text-on-surface-variant font-mono">1</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2 text-secondary font-bold text-xs uppercase tracking-tight">
+<span class="material-symbols-outlined text-sm">hourglass_empty</span>
+                    Pending Confirmation
+                  </div>
+</td>
+<td class="px-6 py-4 text-right">
+<button class="opacity-0 group-hover:opacity-100 transition-opacity text-primary text-sm font-bold">Resolve</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</div>
+</main>
+<!-- Bottom FAB (Contextual for Dashboard/Home) -->
+<button class="fixed bottom-8 right-8 cta-gradient w-14 h-14 rounded-full flex items-center justify-center text-white shadow-2xl hover:scale-110 active:scale-90 transition-all z-50">
+<span class="material-symbols-outlined text-2xl">add</span>
+</button>
+</body></html>

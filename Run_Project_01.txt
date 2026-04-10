@@ -1,0 +1,28 @@
+What's Built
+-------------
+- React frontend with pixel-accurate Stitch theme (forest greens, slate blues, Inter font, Material icons)
+- Python FastAPI backend with 5 API endpoints
+- MCP Google Sheets integration -- tested and confirmed working against your real 2025 spreadsheet (pulled 14 categories live)
+- Claude vision API parser -- converts PDFs to images via PyMuPDF, sends to Claude Sonnet for structured extraction
+- Inline transaction editing -- approve, edit vendor/amount/category/notes, with Client field appearing for 2026
+- Sync to Sheets -- writes approved transactions to the correct monthly tab
+- Duplicate detection -- checks processed_statements.md before processing
+- Statement preview -- renders first PDF page as image in the left panel
+- Success screen -- full sync confirmation with summary card
+
+To Run It
+---------
+1. Uncomment ANTHROPIC_API_KEY in ~/.zshrc, then run:
+   source ~/.zshrc
+
+2. Terminal 1 -- Backend:
+   cd Project_01/backend
+   source .venv/bin/activate
+   python main.py
+
+3. Terminal 2 -- Frontend:
+   cd Project_01/frontend
+   npm run dev
+
+4. Open http://localhost:5174
+

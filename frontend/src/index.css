@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+}
+
+.glass-header {
+  background: rgba(248, 250, 249, 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.cta-gradient {
+  background: linear-gradient(145deg, #154212 0%, #2d5a27 100%);
+}
+
+.success-gradient {
+  background: linear-gradient(145deg, #154212 0%, #2d5a27 100%);
+}
