@@ -74,6 +74,31 @@ async def demo_data():
     )
 
 
+@app.post("/api/create-sheet")
+async def create_sheet(year: int = 2025):
+    """Create a new expense tracking Google Sheet for the given year."""
+    try:
+        result = await sheets.create_expense_sheet(year)
+        return result
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.get("/api/sheet-status")
+async def sheet_status(year: int = 2025):
+    """Check if a sheet exists and is accessible for the given year."""
+    from services.mcp_sheets import SHEET_IDS
+    sheet_id = SHEET_IDS.get(year)
+    if not sheet_id:
+        return {"exists": False, "year": year}
+    try:
+        has = await sheets.has_sheet(year)
+        url = f"https://docs.google.com/spreadsheets/d/{sheet_id}" if has else None
+        return {"exists": has, "year": year, "url": url}
+    except Exception:
+        return {"exists": False, "year": year}
+
+
 @app.get("/api/categories")
 async def get_categories(year: int = 2025):
     categories = await sheets.get_categories(year)

@@ -76,6 +76,96 @@ class SheetsService:
     def _get_columns(self, year: int) -> list[str]:
         return COLUMNS_2026 if year >= 2026 else COLUMNS_2025
 
+    async def create_expense_sheet(self, year: int) -> dict:
+        """Create a new expense tracking Google Sheet for the given year.
+
+        Returns dict with spreadsheet_id, title, and url.
+        """
+        title = f"Consulting Expenses {year}"
+        columns = self._get_columns(year)
+
+        # Create the spreadsheet with column headers as initial data
+        result = await self._call_tool("createGoogleSheet", {
+            "name": title,
+            "data": [columns],
+        })
+        print(f"[MCP] createGoogleSheet result: {result}")
+
+        # Extract spreadsheet ID from result text
+        # Result typically contains the spreadsheet URL or ID
+        sheet_id = self._extract_sheet_id(result)
+        if not sheet_id:
+            raise ValueError(f"Could not extract spreadsheet ID from creation result: {result}")
+
+        # The default first tab is "Sheet1" — rename it to January
+        try:
+            await self._call_tool("renameSheet", {
+                "spreadsheetId": sheet_id,
+                "sheetId": 0,
+                "newTitle": "January",
+            })
+            print("[MCP] Renamed Sheet1 to January")
+        except Exception as e:
+            print(f"[MCP] Warning: could not rename Sheet1: {e}")
+
+        # Add remaining monthly tabs (February through December) + Summary
+        for tab_name in MONTHS[1:] + ["Summary"]:
+            try:
+                await self._call_tool("addSpreadsheetSheet", {
+                    "spreadsheetId": sheet_id,
+                    "sheetTitle": tab_name,
+                })
+                print(f"[MCP] Added tab: {tab_name}")
+            except Exception as e:
+                print(f"[MCP] Warning: could not add tab {tab_name}: {e}")
+
+        # Write column headers to February-December tabs
+        # (January already has headers from creation, Summary doesn't need them)
+        for month in MONTHS[1:]:
+            try:
+                await self._call_tool("appendSpreadsheetRows", {
+                    "spreadsheetId": sheet_id,
+                    "range": f"{month}!A1:A1",
+                    "values": [columns],
+                })
+            except Exception as e:
+                print(f"[MCP] Warning: could not write headers to {month}: {e}")
+
+        # Register the new sheet ID for this year
+        SHEET_IDS[year] = sheet_id
+        print(f"[MCP] Created expense sheet for {year}: {sheet_id}")
+
+        return {
+            "spreadsheet_id": sheet_id,
+            "title": title,
+            "url": f"https://docs.google.com/spreadsheets/d/{sheet_id}",
+            "year": year,
+        }
+
+    def _extract_sheet_id(self, result_text: str) -> str | None:
+        """Extract a Google Spreadsheet ID from MCP tool result text."""
+        import re
+        # Try to find spreadsheet ID in a URL pattern
+        url_match = re.search(r"/spreadsheets/d/([a-zA-Z0-9_-]+)", result_text)
+        if url_match:
+            return url_match.group(1)
+        # Try to find a standalone ID-like string (44 chars, alphanumeric + hyphens/underscores)
+        id_match = re.search(r"[a-zA-Z0-9_-]{30,}", result_text)
+        if id_match:
+            return id_match.group(0)
+        return None
+
+    async def has_sheet(self, year: int) -> bool:
+        """Check if a sheet is configured and accessible for the given year."""
+        sheet_id = SHEET_IDS.get(year)
+        if not sheet_id:
+            return False
+        try:
+            await self._call_tool("listSheets", {"spreadsheetId": sheet_id})
+            return True
+        except Exception:
+            return False
+
     async def get_categories(self, year: int) -> list[str]:
         """Scan Category column across all months, return unique sorted list."""
         sheet_id = self._get_sheet_id(year)

@@ -6,7 +6,7 @@ import TransactionList from './components/TransactionList'
 import CategoryAlert from './components/CategoryAlert'
 import ProcessedLog from './components/ProcessedLog'
 import SuccessBanner from './components/SuccessBanner'
-import { uploadDocumentStream, getCategories, syncTransactions, getLog, getDemoData } from './api'
+import { uploadDocumentStream, getCategories, syncTransactions, getLog, getDemoData, createSheet, getSheetStatus } from './api'
 
 export default function App() {
   const [year, setYear] = useState(2025)
@@ -22,21 +22,25 @@ export default function App() {
   const [error, setError] = useState(null)
   const [progressMessage, setProgressMessage] = useState(null)
   const [monthMismatch, setMonthMismatch] = useState(null)
+  const [sheetUrl, setSheetUrl] = useState(null)
+  const [isCreatingSheet, setIsCreatingSheet] = useState(false)
 
   const newCategories = transactions
     .filter((t) => t.is_new_category)
     .map((t) => t.category)
     .filter((v, i, a) => a.indexOf(v) === i)
 
-  // Fetch categories and log on mount and when year changes
+  // Fetch categories, log, and sheet status on mount and when year changes
   const fetchData = useCallback(async () => {
     try {
-      const [cats, log] = await Promise.all([
-        getCategories(year),
-        getLog(),
+      const [cats, log, status] = await Promise.all([
+        getCategories(year).catch(() => []),
+        getLog().catch(() => []),
+        getSheetStatus(year).catch(() => ({ exists: false })),
       ])
       setCategories(cats)
       setLogEntries(log)
+      setSheetUrl(status.url || null)
     } catch (err) {
       console.error('Failed to fetch data:', err)
     }
@@ -136,6 +140,22 @@ export default function App() {
     }
   }
 
+  async function handleCreateSheet() {
+    setError(null)
+    setIsCreatingSheet(true)
+    try {
+      const result = await createSheet(year)
+      setSheetUrl(result.url)
+      // Refresh categories from the new sheet
+      const cats = await getCategories(year).catch(() => [])
+      setCategories(cats)
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setIsCreatingSheet(false)
+    }
+  }
+
   async function handleLoadDemo() {
     setError(null)
     setIsProcessing(true)
@@ -168,6 +188,9 @@ export default function App() {
         onYearChange={setYear}
         activeMonth={month}
         onMonthSelect={setMonth}
+        sheetUrl={sheetUrl}
+        onCreateSheet={handleCreateSheet}
+        isCreatingSheet={isCreatingSheet}
       />
 
       <main className="ml-64 min-h-screen flex-grow">

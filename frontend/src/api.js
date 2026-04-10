@@ -80,6 +80,20 @@ export async function syncTransactions(year, month, transactions, filename) {
   return res.json()
 }
 
+export async function createSheet(year) {
+  const res = await fetch(`${API}/create-sheet?year=${year}`, { method: 'POST' })
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({ detail: 'Failed to create sheet' }))
+    throw new Error(err.detail || 'Failed to create sheet')
+  }
+  return res.json()
+}
+
+export async function getSheetStatus(year) {
+  const res = await fetch(`${API}/sheet-status?year=${year}`)
+  return res.json()
+}
+
 export async function getDemoData() {
   const res = await fetch(`${API}/demo`)
   if (!res.ok) throw new Error('Demo data unavailable')
